@@ -13,7 +13,7 @@ module.exports = {
   },
   etherscan: {
     apiKey: {
-      bttc: "GDP6SR7K2RQB6PWJCNZZP96RXK7VA33AVA",
+      bttc: process.env.ETHERSCAN_KEY,
     },
     customChains: [
       {
