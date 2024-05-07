@@ -9,46 +9,41 @@ import "@openzeppelin/contracts/utils/cryptography/EIP712.sol";
 contract HandshakeTokenTransfer is EIP712 {
     using ECDSA for bytes32;
 
-    bytes32 private constant INITIATE_TYPEHASH =
+    bytes32 private INITIATE_TYPEHASH =
         keccak256(
-            "initiateTransaction(address sender,address receiver,uint256 amount)"
+            "initiateTransaction(uint256 id,address sender,address receiver,uint256 amount,string tokenName)"
         );
-    bytes32 private ACCEPT_TYPEHASH =
+    bytes32 private PERMIT_TYPEHASH =
         keccak256(
-            "signByReceiver(address sender,address receiver,uint256 amount)"
+            "signByReceiver(uint256 id,address sender,address receiver,uint256 amount,string tokenName)"
         );
 
     struct Transaction {
+        uint256 id;
         address sender;
         address receiver;
         uint256 amount;
-        bool receiverSigned;
         address tokenAddress;
+        string tokenName;
     }
-
-    event TransactionInitiated(
-        uint256 indexed id,
-        address indexed sender,
-        address indexed receiver,
-        uint256 amount
-    );
-    event TransactionSigned(uint256 indexed id, address indexed signer);
 
     constructor() EIP712("HandshakeTokenTransfer", "1") {}
 
     function initiateTransaction(
         bytes memory signature,
         Transaction memory _transaction
-    ) public view returns (address) {
+    ) internal view returns (address) {
         require(_transaction.amount > 0, "Amount must be greater than 0");
         require(_transaction.sender != address(0), "Invalid receiver address");
 
         bytes32 structHash = keccak256(
             abi.encode(
                 INITIATE_TYPEHASH,
+                _transaction.id,
                 _transaction.sender,
                 _transaction.receiver,
-                _transaction.amount
+                _transaction.amount,
+                keccak256(bytes(_transaction.tokenName))
             )
         );
 
@@ -61,7 +56,7 @@ contract HandshakeTokenTransfer is EIP712 {
     function signByReceiver(
         bytes memory signature,
         Transaction memory _transaction
-    ) public view returns (address) {
+    ) internal view returns (address) {
         require(_transaction.amount > 0, "Amount must be greater than 0");
         require(
             _transaction.receiver != address(0),
@@ -70,10 +65,12 @@ contract HandshakeTokenTransfer is EIP712 {
 
         bytes32 structHash = keccak256(
             abi.encode(
-                ACCEPT_TYPEHASH,
+                PERMIT_TYPEHASH,
+                _transaction.id,
                 _transaction.sender,
                 _transaction.receiver,
-                _transaction.amount
+                _transaction.amount,
+                keccak256(bytes(_transaction.tokenName))
             )
         );
 
