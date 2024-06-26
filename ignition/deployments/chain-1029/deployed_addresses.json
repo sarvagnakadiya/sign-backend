@@ -1,5 +1,3 @@
 {
-  "LockModule#HandshakeTokenTransfer": "0xC5Dd0Bd562f948ADDe6116a109E1E744132a8E99",
-  "LockModulee#HandshakeTokenTransfer": "0xf6f9791c7eE8CbE0eD5876B653e6F195798eA9d2",
-  "shake#shake": "0x4Cc41AefeB20a3e0e5104810C0071f6dA8861bB1"
+  "protocolDeploy#HandshakeTokenTransfer": "0x893786b0E950d0aFc831Ea65da6AD60ECeCC5220"
 }

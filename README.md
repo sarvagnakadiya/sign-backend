@@ -11,3 +11,15 @@ REPORT_GAS=true npx hardhat test
 npx hardhat node
 npx hardhat ignition deploy ./ignition/modules/Lock.js
 ```
+
+# deploy command
+
+```shell
+npx hardhat ignition deploy ./ignition/modules/ProtocolDeploy.js --network mainnet
+```
+
+# verify command
+
+```shell
+npx hardhat verify 0x184e1b0b544Da324e2D37Bb713b9D0c16c9eF671 --network mainnet
+```
