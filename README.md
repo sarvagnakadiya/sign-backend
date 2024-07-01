@@ -24,4 +24,5 @@ npx hardhat ignition deploy ./ignition/modules/ProtocolDeploy.js --network mainn
 npx hardhat verify 0x184e1b0b544Da324e2D37Bb713b9D0c16c9eF671 --network mainnet
 ```
 
+deployed on bttc testnet ✅
 deployed on bttc ✅
